@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nilesh Nitin Bhondave — Cybersecurity Enthusiast, CTF Player, Security Researcher. Pune, India.">
+<title>ExploitNilX — Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="ls-logo">ExploitNilX</div>
+  <div class="ls-bar-wrap"><div class="ls-bar" id="ls-bar"></div></div>
+  <div class="ls-msg" id="ls-msg">Initializing operator profile...</div>
+</div>
+
+<!-- AMBIENT -->
+<canvas id="matrix-canvas"></canvas>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="glitch-line"></div>
+<div class="glitch-line" style="animation-delay:4.5s;background:linear-gradient(90deg,transparent,var(--red),var(--warn),transparent)"></div>
+<div id="grid-overlay"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="tb-logo">ExploitNilX</div>
+    <nav class="tb-nav">
+      <button class="tb-nav-btn" onclick="smoothTo('hero')">HOME</button>
+      <button class="tb-nav-btn" onclick="toggleFloat()">⌨ TERMINAL</button>
+      <button class="tb-nav-btn" onclick="smoothTo('about')">ABOUT</button>
+      <button class="tb-nav-btn" onclick="smoothTo('skills')">SKILLS</button>
+      <button class="tb-nav-btn" onclick="smoothTo('projects')">PROJECTS</button>
+      <button class="tb-nav-btn" onclick="smoothTo('education')">EDUCATION</button>
+      <button class="tb-nav-btn" onclick="smoothTo('achievements')">ACHIEVEMENTS</button>
+      <button class="tb-nav-btn" onclick="smoothTo('resume')">RESUME</button>
+      <button class="tb-nav-btn" onclick="smoothTo('contact')">CONTACT</button>
+    </nav>
+  </div>
+  <div class="tb-right">
+    <span>NET ▲</span>
+    <span>⬡ VPN:ON</span>
+    <span class="tb-status">● LIVE</span>
+    <span id="tb-clock">00:00:00</span>
+  </div>
+</div>
+
+<!-- FLOATING TERMINAL -->
+<div id="float-term">
+  <div class="ft-titlebar" id="ft-drag">
+    <div class="ft-left">
+      <div class="ft-dot r" onclick="toggleFloat()" style="cursor:pointer"></div>
+      <div class="ft-dot y"></div>
+      <div class="ft-dot g"></div>
+      <span class="ft-title">ExploitNilX@kali:~ — bash — 80×24</span>
+    </div>
+    <div class="ft-acts">
+      <button class="ft-act" onclick="ftExec('clear')">clear</button>
+      <button class="ft-act" onclick="ftExec('help')">help</button>
+    </div>
+  </div>
+  <div class="ft-body" id="ft-body"></div>
+  <div class="ft-inputrow">
+    <span class="ft-prompt">┌──(ExploitNilX㉿kali)-[~]<br>└─&nbsp;</span>
+    <input class="ft-input" id="ft-input" type="text" placeholder="type a command..." autocomplete="off" spellcheck="false">
+  </div>
+  <div class="ft-resizer" id="ft-resize"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="section-wrap">
+
+  <!-- HOME / HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div id="boot-seq"></div>
+      <div class="hero-tag"><span class="hero-tag-dot"></span>OPERATOR PROFILE LOADED</div>
+      <h1 class="hero-name" data-text="NILESH NITIN BHONDAVE">NILESH NITIN<br>BHONDAVE</h1>
+      <div class="hero-alias">ALIAS: <span>@ExploitNilX</span></div>
+      <div class="hero-roles">
+        <div class="hero-role-item">CYBERSECURITY ENTHUSIAST</div>
+        <div class="hero-role-item">CTF PLAYER</div>
+        <div class="hero-role-item">SECURITY RESEARCHER</div>
+      </div>
+      <div class="hero-bio">
+        <span class="prompt">root@kali:~$</span> cat /etc/operator.conf<br>
+        <span id="typed-bio"></span>
+      </div>
+      <div class="hero-stats" id="hero-stats"></div>
+      <div class="hero-btns">
+        <a class="hbtn" href="#" onclick="toggleFloat();return false;"><span class="hbtn-txt">⌨ OPEN TERMINAL</span></a>
+        <a class="hbtn ghost" href="#achievements"><span class="hbtn-txt">▸ CTF WINS</span></a>
+        <a class="hbtn ghost" href="#contact"><span class="hbtn-txt">▸ CONTACT</span></a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="kterm-titlebar">
+        <div class="ktb-dots">
+          <div class="ktb-dot red"></div><div class="ktb-dot ylw"></div><div class="ktb-dot grn"></div>
+        </div>
+        <span class="ktb-title">ExploitNilX@kali: ~</span>
+        <div style="display:flex;gap:2px">
+          <div class="ktb-tab active">bash</div><div class="ktb-tab">zsh</div>
+        </div>
+      </div>
+      <div class="kterm-body" id="hero-term-body"></div>
+      <div class="kterm-pills">
+        <div id="hero-pills" style="display:contents">
+          <button class="kpill" onclick="heroExec('whoami')">whoami</button>
+          <button class="kpill" onclick="heroExec('skills')">skills</button>
+          <button class="kpill" onclick="heroExec('ctf')">ctf</button>
+          <button class="kpill" onclick="heroExec('certs')">certs</button>
+          <button class="kpill" onclick="heroExec('experience')">experience</button>
+          <button class="kpill" onclick="heroExec('contact')">contact</button>
+          <button class="kpill" onclick="heroExec('hack')">hack</button>
+          <button class="kpill" onclick="heroExec('neofetch')">neofetch</button>
+        </div>
+        <button class="kpill" onclick="heroExec('help')">help</button>
+        <button class="kpill" onclick="heroExec('clear')">clear</button>
+      </div>
+      <div class="kterm-inputrow">
+        <span class="kterm-prompt">┌──(ExploitNilX㉿kali)-[~]<br>└─$&nbsp;</span>
+        <input class="kterm-input" id="hero-term-input" type="text" placeholder="enter command..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT ME -->
+  <section id="about">
+    <div class="sh reveal"><h2 class="sh-title">ABOUT ME</h2><div class="sh-line"></div></div>
+    <div class="about-grid">
+      <div class="aterm reveal">
+        <div class="aterm-hdr">
+          <div class="adot on"></div><div class="adot"></div><div class="adot"></div>
+          <span class="aterm-title">cat /home/ExploitNilX/.profile</span>
+        </div>
+        <div class="aterm-body" id="about-term"></div>
+      </div>
+      <div class="info-grid reveal" id="info-grid"></div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sh reveal"><h2 class="sh-title">SKILLS</h2><div class="sh-line"></div></div>
+    <div class="skill-grid" id="skills-grid"></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="sh reveal"><h2 class="sh-title">PROJECTS</h2><div class="sh-line"></div></div>
+    <div class="proj-grid" id="proj-grid"></div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sh reveal"><h2 class="sh-title">EDUCATION</h2><div class="sh-line"></div></div>
+    <div class="edu-list" id="edu-list"></div>
+  </section>
+
+  <!-- ACHIEVEMENTS / CERTIFICATIONS -->
+  <section id="achievements">
+    <div class="sh reveal"><h2 class="sh-title">ACHIEVEMENTS &amp; CERTIFICATIONS</h2><div class="sh-line"></div></div>
+    <div class="ach-certs-grid">
+      <div>
+        <div class="sub-heading reveal">// ACHIEVEMENTS</div>
+        <div class="ach-list" id="ach-list"></div>
+      </div>
+      <div>
+        <div class="sub-heading reveal">// CERTIFICATIONS</div>
+        <div class="certs-grid" id="certs-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sh reveal"><h2 class="sh-title">EXPERIENCE</h2><div class="sh-line"></div></div>
+    <div class="timeline" id="exp-timeline"></div>
+  </section>
+
+  <!-- RESUME -->
+  <section id="resume">
+    <div class="sh reveal"><h2 class="sh-title">RESUME</h2><div class="sh-line"></div></div>
+    <div class="resume-wrap reveal">
+      <div class="resume-card">
+        <div class="resume-icon">▣</div>
+        <div class="resume-info">
+          <div class="resume-title">NILESH_NITIN_BHONDAVE_RESUME.PDF</div>
+          <div class="resume-meta">Cybersecurity Enthusiast · CTF Player · Security Researcher</div>
+        </div>
+        <a class="hbtn" href="resume.pdf" download id="resume-dl-btn">
+          <span class="hbtn-txt">↓ DOWNLOAD RESUME</span>
+        </a>
+      </div>
+      <div class="resume-highlights" id="resume-highlights"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT ME -->
+  <section id="contact">
+    <div class="sh reveal" style="justify-content:center"><h2 class="sh-title">CONTACT ME</h2><div class="sh-line"></div></div>
+    <div class="ct-t reveal">INITIATE CONNECTION</div>
+    <div class="ct-s reveal">// OPEN TO INTERNSHIP · CTF COLLAB · CYBERSECURITY OPPORTUNITIES</div>
+    <div class="contact-layout reveal">
+      <div>
+        <div class="cf-title">// SEND MESSAGE</div>
+        <div class="cf-field"><label class="cf-label">Name</label><input class="cf-input" type="text" id="cf-name" placeholder="Your name"></div>
+        <div class="cf-field"><label class="cf-label">Email</label><input class="cf-input" type="email" id="cf-email" placeholder="your@email.com"></div>
+        <div class="cf-field"><label class="cf-label">Subject</label><input class="cf-input" type="text" id="cf-subject" placeholder="Re: Internship / CTF Collab / ..."></div>
+        <div class="cf-field"><label class="cf-label">Message</label><textarea class="cf-input cf-textarea" id="cf-message" placeholder="Your message..."></textarea></div>
+        <button class="cf-btn" id="cf-btn" onclick="sendMessage()">SEND MESSAGE ↗</button>
+        <div class="cf-msg" id="cf-result" style="display:none"></div>
+      </div>
+      <div>
+        <div class="cf-title">// DIRECT CONTACT</div>
+        <div class="clinks" id="contact-links"></div>
+      </div>
+    </div>
+    <footer class="reveal">
+      <p>> NILESH NITIN BHONDAVE · CYBERSECURITY ENTHUSIAST · PUNE, INDIA</p>
+      <p>> "THE BEST DEFENSE IS AN ELITE OFFENSE" — @ExploitNilX</p>
+    </footer>
+  </section>
+
+</div><!-- end section-wrap -->
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
